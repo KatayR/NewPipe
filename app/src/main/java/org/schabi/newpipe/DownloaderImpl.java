@@ -38,6 +38,8 @@ public final class DownloaderImpl extends Downloader {
     private static DownloaderImpl instance;
     private final Map<String, String> mCookies;
     private final OkHttpClient client;
+    private Integer customTimeout;
+
 
     private DownloaderImpl(final OkHttpClient.Builder builder) {
         this.client = builder
@@ -63,6 +65,12 @@ public final class DownloaderImpl extends Downloader {
     public static DownloaderImpl getInstance() {
         return instance;
     }
+
+    public DownloaderImpl setCustomTimeout(final Integer value) {
+        this.customTimeout = value;
+        return this;
+    }
+
 
     public String getCookies(final String url) {
         final String youtubeCookie = url.contains(YOUTUBE_DOMAIN)
@@ -160,7 +168,16 @@ public final class DownloaderImpl extends Downloader {
 
         }
 
-        final okhttp3.Response response = client.newCall(requestBuilder.build()).execute();
+        OkHttpClient tmpClient = client;
+        final okhttp3.Response response;
+
+        if (customTimeout != null) {
+            tmpClient = new OkHttpClient.Builder()
+                    .readTimeout(customTimeout, TimeUnit.SECONDS)
+                    .build();
+        }
+
+        response = tmpClient.newCall(requestBuilder.build()).execute();
 
         if (response.code() == 429) {
             response.close();

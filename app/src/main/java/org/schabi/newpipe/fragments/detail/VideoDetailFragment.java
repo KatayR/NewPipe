@@ -1,4 +1,5 @@
 package org.schabi.newpipe.fragments.detail;
+import org.schabi.newpipe.util.ReturnYouTubeDislikeUtils;
 
 import static android.text.TextUtils.isEmpty;
 import static org.schabi.newpipe.extractor.StreamingService.ServiceInfo.MediaCapability.COMMENTS;
@@ -104,6 +105,7 @@ import org.schabi.newpipe.player.ui.VideoPlayerUi;
 import org.schabi.newpipe.util.Constants;
 import org.schabi.newpipe.util.DeviceUtils;
 import org.schabi.newpipe.util.ExtractorHelper;
+import org.schabi.newpipe.util.external_communication.KoreUtils;
 import org.schabi.newpipe.util.ListHelper;
 import org.schabi.newpipe.util.Localization;
 import org.schabi.newpipe.util.NavigationHelper;
@@ -1523,6 +1525,26 @@ public final class VideoDetailFragment
 
             binding.detailThumbsDisabledView.setVisibility(View.VISIBLE);
         } else {
+            if (info.getDislikeCount() == -1) {
+                new Thread(() -> {
+                    info.setDislikeCount(ReturnYouTubeDislikeUtils.getDislikes(getContext(), info));
+                    if (info.getDislikeCount() >= 0) {
+                        if (activity == null) {
+                            return;
+                        }
+                        activity.runOnUiThread(() -> {
+                            if (binding != null && binding.detailThumbsDownCountView != null) {
+                                binding.detailThumbsDownCountView.setText(Localization
+                                        .shortCount(activity, info.getDislikeCount()));
+                                binding.detailThumbsDownCountView.setVisibility(View.VISIBLE);
+                            }
+                            if (binding != null && binding.detailThumbsDownImgView != null) {
+                                binding.detailThumbsDownImgView.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    }
+                }).start();
+            }
             if (info.getDislikeCount() >= 0) {
                 binding.detailThumbsDownCountView.setText(Localization
                         .shortCount(activity, info.getDislikeCount()));

@@ -34,6 +34,12 @@
     <string name="tab_choose">Choose Tab</string>
     <string name="controls_background_title">Background</string>
     <string name="controls_popup_title">Popup</string>
+    <string name="invalid_color_toast">Invalid color</string>
+    <string name="extras">Extras</string>
+    <string name="extras_todo_summary">Tweaks, workarounds, and other miscellaneous settings belong here.</string>
+    <string name="experimental_settings">Experimental Settings</string>
+ <string name="enable_return_youtube_dislike_title">Show Dislike Count</string>
+    <string name="enable_return_youtube_dislike_summary">Use the ReturnYouTubeDislike API to show the amount of dislikes for a video. This only works for YouTube videos.\n<b>WARNING: Your IP address will be visible to the API. Use at your own risk!</b></string>
     <string name="controls_add_to_playlist_title">Add To</string>
     <string name="download_path_title">Video download folder</string>
     <string name="download_path_summary">Downloaded video files are stored here</string>

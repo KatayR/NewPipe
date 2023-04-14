@@ -9,6 +9,9 @@
 
     <string name="saved_tabs_key">saved_tabs_key</string>
 
+    <!-- Extras -->
+    <string name="enable_return_youtube_dislike_key" translatable="false">enable_return_youtube_dislike</string>
+
     <!-- Key values -->
     <string name="download_path_video_key">download_path</string>
     <string name="download_path_audio_key">download_path_audio</string>
